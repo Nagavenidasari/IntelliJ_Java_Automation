@@ -1,0 +1,51 @@
+package pages;
+
+import org.openqa.selenium.By;
+import org.openqa.selenium.WebDriver;
+
+public class WysiwygEditorPage {
+
+    private WebDriver driver;
+    private String editorIframeId = "mce_0_ifr";
+    private By textArea = By.id("tinymce");
+    private By increaseindentbtn = By.xpath("//button[@title= 'Increase indent']");
+
+
+    public WysiwygEditorPage(WebDriver driver){
+        this.driver = driver;
+    }
+
+    private void switchToEditArea(){
+        driver.switchTo().frame(editorIframeId);
+
+    }
+    public void clearTextArea(){
+        switchToEditArea();
+        driver.findElement(textArea).clear();
+        switchToMainArea();
+    }
+
+    public void switchToMainArea(){
+        driver.switchTo().parentFrame();
+    }
+    public void setTextArea(String text){
+        switchToEditArea();
+        driver.findElement(textArea).sendKeys(text);
+        switchToMainArea();
+
+
+    }
+    public void increaseIndentation(){
+        driver.findElement(increaseindentbtn).click();
+    }
+    public String getTextFromEditor(){
+        switchToEditArea();
+        String text1 = driver.findElement(textArea).getText();
+        switchToMainArea();
+        return text1;
+
+    }
+
+
+
+}
